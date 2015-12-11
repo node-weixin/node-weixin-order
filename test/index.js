@@ -11,15 +11,20 @@ describe('node-weixin-order', function() {
     assert.equal(false, nodeWeixinOrder.addListener('create1', function() {}));
   });
   it('should be able to send create message', function(done) {
-    assert.equal(true, nodeWeixinOrder.addListener('create', function(req, res) {
+    assert.equal(true, nodeWeixinOrder.addListener('create', function(req, res, cb) {
       assert.equal(true, req.name === 'req');
       assert.equal(true, res.name === 'res');
-      done();
+      cb(false, {cb: 'cb'});
     }));
     nodeWeixinOrder.create({
       name: 'req'
     }, {
       name: 'res'
+    }, function(error, data) {
+      assert.equal(true, !error);
+      assert.equal(true, data.cb === 'cb');
+      done();
+
     });
   });
 
