@@ -1,17 +1,11 @@
 import assert from 'assert';
 import nodeWeixinOrder from '../lib';
+import events from 'node-weixin-events';
 
 describe('node-weixin-order', function() {
-  it('should be able to add listener!', function() {
-    assert.equal(true, nodeWeixinOrder.addListener('create', function() {
 
-    }));
-  });
-  it('should not be able to add listener!', function() {
-    assert.equal(false, nodeWeixinOrder.addListener('create1', function() {}));
-  });
   it('should be able to send create message', function(done) {
-    assert.equal(true, nodeWeixinOrder.addListener('create', function(req, res, cb) {
+    assert.equal(true, events.on(events.ORDER_CREATE, function(req, res, cb) {
       assert.equal(true, req.name === 'req');
       assert.equal(true, res.name === 'res');
       cb(false, {cb: 'cb'});
@@ -24,16 +18,15 @@ describe('node-weixin-order', function() {
       assert.equal(true, !error);
       assert.equal(true, data.cb === 'cb');
       done();
-
     });
   });
 
   it('should be able to send notify message', function(done) {
-    assert.equal(true, nodeWeixinOrder.addListener('notify', function(req, res) {
+    events.on(events.ORDER_NOTIFY, function(req, res) {
       assert.equal(true, req.name === 'req');
       assert.equal(true, res.name === 'res');
       done();
-    }));
+    });
     nodeWeixinOrder.notify({
       name: 'req'
     }, {
@@ -57,5 +50,7 @@ describe('node-weixin-order', function() {
       trade_type: 'JSSDK'
     }, {}));
     assert.equal(false, nodeWeixinOrder.validate({}, {}));
+    assert.equal(false, nodeWeixinOrder.validate({}, null));
+
   });
 });
