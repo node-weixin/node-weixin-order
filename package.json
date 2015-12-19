@@ -1,6 +1,6 @@
 {
   "name": "node-weixin-order",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "微信订单处理模块",
   "homepage": "www.node-weixin.com",
   "author": {
@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "node-form-validator": "^0.2.0",
-    "node-weixin-events": "0.0.2"
+    "node-weixin-events": "^0.0.3"
   }
 }

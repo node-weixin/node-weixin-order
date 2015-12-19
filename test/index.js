@@ -5,15 +5,12 @@ import events from 'node-weixin-events';
 describe('node-weixin-order', function() {
 
   it('should be able to send create message', function(done) {
-    assert.equal(true, events.on(events.ORDER_CREATE, function(req, res, cb) {
+    assert.equal(true, events.on(events.ORDER_CREATE, function(req, cb) {
       assert.equal(true, req.name === 'req');
-      assert.equal(true, res.name === 'res');
       cb(false, {cb: 'cb'});
     }));
     nodeWeixinOrder.create({
       name: 'req'
-    }, {
-      name: 'res'
     }, function(error, data) {
       assert.equal(true, !error);
       assert.equal(true, data.cb === 'cb');
